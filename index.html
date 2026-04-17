@@ -108,16 +108,16 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
 .muscle-tag{display:inline-block;font-size:7px;letter-spacing:.12em;text-transform:uppercase;padding:2px 5px;border-radius:0;background:var(--surface2);margin-top:3px;}
 .ex-stats{text-align:right;flex-shrink:0;}
 .stat-reps{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:#fff;white-space:nowrap;line-height:1;}
-.stat-sets{font-size:8px;color:var(--muted);margin-top:2px;}
-.stat-rest{font-size:8px;color:var(--dim);margin-top:2px;}
+.stat-sets{font-size:8px;color:#00f5d4aa;margin-top:2px;}
+.stat-rest{font-size:8px;color:#00f5d466;margin-top:2px;}
 
 .wt-row{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:9px;border-top:1px solid var(--dim);}
 .wt-lbl{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);flex-shrink:0;}
 .wt-input{background:var(--bg);border:1px solid var(--border2);border-radius:0;color:#f0f0f0;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;width:76px;padding:5px 9px;text-align:center;-webkit-user-select:auto;user-select:auto;}
 .wt-input:focus{outline:none;border-color:var(--push);box-shadow:0 0 8px #ff2d7844;}
 .wt-unit{font-size:10px;color:var(--muted);letter-spacing:.1em;}
-.wt-last{font-size:8px;color:var(--dim);letter-spacing:.08em;margin-left:auto;text-align:right;line-height:1.5;}
-.wt-last span{display:block;color:var(--muted);}
+.wt-last{font-size:8px;color:#00f5d499;letter-spacing:.08em;margin-left:auto;text-align:right;line-height:1.5;}
+.wt-last span{display:block;color:#00f5d4;}
 
 /* PR BADGE */
 .pr-badge{display:inline-flex;align-items:center;gap:3px;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--push);border-radius:0;padding:2px 5px;margin-left:5px;font-weight:700;animation:pr-pop .4s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 0 8px #ff2d7888;}
@@ -571,6 +571,8 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
   </div>
   <div class="hist-actions">
     <button class="hist-export-btn" onclick="exportHistory()">↓ Export JSON</button>
+    <button class="hist-export-btn" style="background:transparent;border:1px solid var(--pull);color:var(--pull);box-shadow:0 0 12px #00f5d422;" onclick="document.getElementById('importInput').click()">↑ Import JSON</button>
+    <input type="file" id="importInput" accept=".json" style="display:none" onchange="importHistory(event)">
     <button class="hist-edit-btn" id="histEditBtn" onclick="toggleEditMode()">Select</button>
   </div>
   <div class="hist-del-bar" id="histDelBar">
@@ -613,15 +615,14 @@ const WEEKS = {
         {name:"Arm Curl",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps"},
         {name:"Bent-Over Reverse Fly",sets:3,reps:"12–15",rest:"60s",muscle:"Back",note:"Test space first"},
       ]},
-      {id:"A3",label:"Day 3",focus:"Push + Legs",type:"push",muscles:"Chest · Triceps · Legs",color:"#ff2d78",duration:"~50 min",
+      {id:"A3",label:"Day 3",focus:"Push",type:"push",muscles:"Chest · Shoulders · Triceps",color:"#ff2d78",duration:"~50 min",
        durationMins:52,
        exercises:[
         {name:"Chest Press",sets:4,reps:"8–10",rest:"90s",muscle:"Chest",note:"Vary grip from Day 1"},
         {name:"Upright Row – Wide Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
         {name:"Arm Extension – Supine Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
-        {divider:"Legs Finisher"},
-        {name:"Leg Extension",sets:3,reps:"12–15",rest:"60s",muscle:"Legs"},
-        {name:"Hip Extension",sets:3,reps:"12–15",rest:"60s",muscle:"Glutes"},
+        {name:"Shoulder Press",sets:3,reps:"8–10",rest:"90s",muscle:"Shoulders"},
+        {name:"Arm Adduction",sets:3,reps:"10–12",rest:"60s",muscle:"Chest"},
         {name:"Calf Raise",sets:3,reps:"15–20",rest:"45s",muscle:"Calves"},
       ]},
     ]
@@ -649,16 +650,15 @@ const WEEKS = {
         {name:"Arm Extension",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
         {name:"Arm Extension – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
       ]},
-      {id:"B3",label:"Day 3",focus:"Pull + Legs",type:"pull",muscles:"Back · Biceps · Legs",color:"#00f5d4",duration:"~50 min",
+      {id:"B3",label:"Day 3",focus:"Pull",type:"pull",muscles:"Back · Biceps",color:"#00f5d4",duration:"~50 min",
        durationMins:52,
        exercises:[
         {name:"Pulldown – Reverse Grip",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
         {name:"Pulldown – Standing – Supine Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
         {name:"Row – High",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
         {name:"Arm Curl – Single Arm – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps",note:"Each arm"},
-        {divider:"Legs Finisher"},
-        {name:"Leg Extension",sets:3,reps:"12–15",rest:"60s",muscle:"Legs"},
-        {name:"Hip Extension",sets:3,reps:"12–15",rest:"60s",muscle:"Glutes"},
+        {name:"Bent-Over Reverse Fly",sets:3,reps:"12–15",rest:"60s",muscle:"Back",note:"Test space first"},
+        {name:"Arm Curl – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps"},
         {name:"Calf Raise",sets:3,reps:"15–20",rest:"45s",muscle:"Calves"},
       ]},
     ]
@@ -1747,15 +1747,102 @@ function saveRunEdits(realIdx) {
   }, 50);
 }
 
+// Current data version — bump this when making breaking structural changes
+const DATA_VERSION = 1;
+
 function exportHistory() {
   const blob = new Blob(
-    [JSON.stringify({exportDate:new Date().toISOString(),sessions:state.sessionHistory},null,2)],
+    [JSON.stringify({
+      exportDate: new Date().toISOString(),
+      version: DATA_VERSION,
+      sessions: state.sessionHistory
+    }, null, 2)],
     {type:"application/json"}
   );
   const url=URL.createObjectURL(blob);
   const a=document.createElement("a");
   a.href=url; a.download=`trainapp-${new Date().toISOString().slice(0,10)}.json`;
   a.click(); URL.revokeObjectURL(url);
+}
+
+// Normalize a session to current structure, filling in defaults for missing fields
+function migrateSession(s) {
+  if (s.kind === "gym") {
+    return {
+      kind: "gym",
+      date: s.date || new Date().toISOString(),
+      weekLabel: s.weekLabel || "",
+      dayId: s.dayId || "",
+      dayLabel: s.dayLabel || "",
+      focus: s.focus || "",
+      type: s.type || "push",
+      status: s.status ?? true,
+      caloriesBurned: s.caloriesBurned ?? null,
+      exercises: (s.exercises || []).map(ex => ({
+        name: ex.name || "",
+        muscle: ex.muscle || "",
+        sets: ex.sets || 3,
+        reps: ex.reps || "8–10",
+        weight: ex.weight ?? null,
+        completed: ex.completed ?? true,
+      }))
+    };
+  } else if (s.kind === "run") {
+    return {
+      kind: "run",
+      date: s.date || new Date().toISOString(),
+      distanceKm: s.distanceKm ?? 0,
+      durationMins: s.durationMins ?? 0,
+      calories: s.calories ?? null,
+      pace: s.pace || "—",
+      speed: s.speed || "—",
+    };
+  }
+  return s; // unknown kind, pass through
+}
+
+function importHistory(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+
+      // Version check — warn if file is from a future version
+      if (data.version && data.version > DATA_VERSION) {
+        alert(`⚠ This export was made with a newer version of the app (v${data.version}). Some data may not import correctly.`);
+      }
+
+      // Support both sessions-only export and full state export
+      if (data.sessions && Array.isArray(data.sessions)) {
+        if (!confirm(`Import ${data.sessions.length} sessions? This will merge with your existing data.`)) return;
+        const migrated = data.sessions.map(migrateSession);
+        const existingKeys = new Set(state.sessionHistory.map(s => s.date + s.kind));
+        const newSessions = migrated.filter(s => !existingKeys.has(s.date + s.kind));
+        state.sessionHistory = [...state.sessionHistory, ...newSessions]
+          .sort((a,b) => new Date(a.date) - new Date(b.date));
+        saveState();
+        renderHistPanel();
+        renderHome();
+        alert(`✓ Imported ${newSessions.length} new sessions.${newSessions.length < data.sessions.length ? ` ${data.sessions.length - newSessions.length} duplicate(s) skipped.` : ""}`);
+      } else if (data.sessionHistory) {
+        if (!confirm(`Import full app state? This will replace all current data.`)) return;
+        const migrated = (data.sessionHistory || []).map(migrateSession);
+        state = {...defaultState(), ...data, sessionHistory: migrated};
+        saveState();
+        renderHistPanel();
+        renderHome();
+        alert(`✓ Full state imported successfully.`);
+      } else {
+        alert("Unrecognised file format. Please use a file exported from this app.");
+      }
+    } catch(err) {
+      alert("Failed to read file. Make sure it's a valid JSON export from this app.");
+    }
+    event.target.value = "";
+  };
+  reader.readAsText(file);
 }
 
 // ═══════════════════════════════════════════════════════
