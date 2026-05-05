@@ -108,16 +108,16 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
 .muscle-tag{display:inline-block;font-size:7px;letter-spacing:.12em;text-transform:uppercase;padding:2px 5px;border-radius:0;background:var(--surface2);margin-top:3px;}
 .ex-stats{text-align:right;flex-shrink:0;}
 .stat-reps{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:#fff;white-space:nowrap;line-height:1;}
-.stat-sets{font-size:8px;color:#00f5d4aa;margin-top:2px;}
-.stat-rest{font-size:8px;color:#00f5d466;margin-top:2px;}
+.stat-sets{font-size:8px;color:var(--muted);margin-top:2px;}
+.stat-rest{font-size:8px;color:var(--dim);margin-top:2px;}
 
 .wt-row{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:9px;border-top:1px solid var(--dim);}
 .wt-lbl{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);flex-shrink:0;}
 .wt-input{background:var(--bg);border:1px solid var(--border2);border-radius:0;color:#f0f0f0;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;width:76px;padding:5px 9px;text-align:center;-webkit-user-select:auto;user-select:auto;}
 .wt-input:focus{outline:none;border-color:var(--push);box-shadow:0 0 8px #ff2d7844;}
 .wt-unit{font-size:10px;color:var(--muted);letter-spacing:.1em;}
-.wt-last{font-size:8px;color:#00f5d499;letter-spacing:.08em;margin-left:auto;text-align:right;line-height:1.5;}
-.wt-last span{display:block;color:#00f5d4;}
+.wt-last{font-size:8px;color:var(--dim);letter-spacing:.08em;margin-left:auto;text-align:right;line-height:1.5;}
+.wt-last span{display:block;color:var(--muted);}
 
 /* PR BADGE */
 .pr-badge{display:inline-flex;align-items:center;gap:3px;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--push);border-radius:0;padding:2px 5px;margin-left:5px;font-weight:700;animation:pr-pop .4s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 0 8px #ff2d7888;}
@@ -311,6 +311,22 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
 .sess-edit-unit{font-size:9px;color:var(--muted);letter-spacing:.08em;flex-shrink:0;}
 .sess-save-btn{width:100%;margin-top:10px;padding:10px;border:none;border-radius:0;background:var(--push);color:#fff;font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 12px #ff2d7844;}
 .sess-save-btn:active{opacity:.8;}
+/* EXERCISE NOTES */
+.ex-note-row{margin-top:8px;padding-top:8px;border-top:1px solid var(--dim);}
+.ex-note-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:0;color:#aaa;font-family:'Chakra Petch',sans-serif;font-size:9px;padding:6px 9px;resize:none;letter-spacing:.04em;line-height:1.5;}
+.ex-note-input:focus{outline:none;border-color:var(--muted);color:#ddd;}
+.ex-note-input::placeholder{color:var(--dim);}
+.hist-ex-note{font-size:8px;color:var(--muted);letter-spacing:.04em;margin-top:3px;line-height:1.5;font-style:italic;}
+/* EXTRA SESSION & FINISH WEEK BUTTONS */
+.extra-session-wrap{padding:0 20px 6px;}
+.extra-session-btn{width:100%;padding:11px;border:1px solid var(--pull);border-radius:0;font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--pull);box-shadow:0 0 12px #00f5d422;-webkit-user-select:none;user-select:none;}
+.extra-session-btn:active{opacity:.8;}
+.finish-week-wrap{padding:0 20px 6px;}
+.finish-week-btn{width:100%;padding:11px;border:none;border-radius:0;font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;-webkit-user-select:none;user-select:none;}
+.finish-week-btn:active{transform:scale(.98);}
+/* BODYWEIGHT EXERCISE */
+.bw-row{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:9px;border-top:1px solid var(--dim);}
+.bw-lbl{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
 </style>
 </head>
 <body>
@@ -427,6 +443,12 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
   </div>
   <div class="skip-wrap">
     <button class="skip-btn" id="skipBtn" onclick="skipDay()">⚠ Skip / Cut Short</button>
+  </div>
+  <div class="finish-week-wrap" id="finishWeekWrap" style="display:none">
+    <button class="finish-week-btn" id="finishWeekBtn" onclick="finishWeek()">✓ Finish Week → Next Week</button>
+  </div>
+  <div class="extra-session-wrap" id="extraSessionWrap" style="display:none">
+    <button class="extra-session-btn" onclick="startExtraSession()">+ Add Extra Session</button>
   </div>
 
   <div class="tips-tog" onclick="toggleTips()">
@@ -625,7 +647,20 @@ const WEEKS = {
         {name:"Arm Adduction",sets:3,reps:"10–12",rest:"60s",muscle:"Chest"},
         {name:"Calf Raise",sets:3,reps:"15–20",rest:"45s",muscle:"Calves"},
       ]},
-    ]
+    ],
+    extra:{id:"AX",label:"Extra",focus:"Pull",type:"pull",muscles:"Back · Biceps · Core",color:"#00f5d4",duration:"~55 min",
+     durationMins:55,
+     exercises:[
+      {name:"Pulldown – Reverse Grip",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
+      {name:"Pull Over",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
+      {name:"Pulldown – Standing – Prone Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
+      {name:"Arm Curl – Single Arm – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps",note:"Each arm"},
+      {name:"Row – High",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
+      {divider:"Core Finisher"},
+      {name:"Plank",sets:3,reps:"40s",rest:"45s",muscle:"Core",bodyweight:true},
+      {name:"Leg Raises",sets:3,reps:"12–15",rest:"45s",muscle:"Core",bodyweight:true},
+      {name:"Dead Bug",sets:3,reps:"10 each side",rest:"45s",muscle:"Core",bodyweight:true},
+    ]}
   },
   B:{
     pattern:"Pull · Push · Pull",
@@ -661,7 +696,20 @@ const WEEKS = {
         {name:"Arm Curl – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps"},
         {name:"Calf Raise",sets:3,reps:"15–20",rest:"45s",muscle:"Calves"},
       ]},
-    ]
+    ],
+    extra:{id:"BX",label:"Extra",focus:"Push",type:"push",muscles:"Chest · Shoulders · Triceps · Core",color:"#ff2d78",duration:"~55 min",
+     durationMins:55,
+     exercises:[
+      {name:"Chest Press",sets:4,reps:"8–10",rest:"90s",muscle:"Chest"},
+      {name:"Front Raise",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
+      {name:"Arm Extension – Supine Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
+      {name:"Upright Row – Wide Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
+      {name:"Triceps Kick Back – Bent-Over",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
+      {divider:"Core Finisher"},
+      {name:"Plank",sets:3,reps:"40s",rest:"45s",muscle:"Core",bodyweight:true},
+      {name:"Leg Raises",sets:3,reps:"12–15",rest:"45s",muscle:"Core",bodyweight:true},
+      {name:"Dead Bug",sets:3,reps:"10 each side",rest:"45s",muscle:"Core",bodyweight:true},
+    ]}
   }
 };
 
@@ -689,13 +737,16 @@ const TIPS = [
 // ═══════════════════════════════════════════════════════
 
 const LS_KEY = "trainapp_v1";
+const DATA_VERSION = 2;
 
 function defaultState() {
   return {
     currentWeek:"A", activeDay:0,
     checked:{}, weights:{}, completedDays:{},
-    exOverrides:{}, // { "dayId-idx": { sets, repsLow, repsHigh } }
-    sessionHistory:[], // gym + run sessions combined
+    exOverrides:{},
+    extraSessionActive: false, // whether we're currently in an extra session
+    exerciseNotes:{}, // { "dayId-idx": "note text" }
+    sessionHistory:[],
     profile:{ age:null, weight:null, height:null },
   };
 }
@@ -1036,7 +1087,9 @@ function lastWeight(exName) {
 
 function renderGym() {
   const week = WEEKS[state.currentWeek];
-  const day  = week.days[state.activeDay];
+  // Determine active day — could be extra session
+  const isExtra = !!state.extraSessionActive;
+  const day = isExtra ? week.extra : week.days[state.activeDay];
 
   // Week badge
   const wbv = document.getElementById("weekBadgeVal");
@@ -1056,29 +1109,55 @@ function renderGym() {
       }).join("")
     : "";
 
-  // Day tabs
+  // Day tabs — always show 3 regular days
   const tabsEl = document.getElementById("dayTabs");
   tabsEl.innerHTML = "";
   week.days.forEach((d,i)=>{
     const status = state.completedDays[d.id];
+    const isActiveTab = !isExtra && i===state.activeDay;
     const tab = document.createElement("div");
-    tab.className = `day-tab ${i===state.activeDay?"active":""}`;
-    if (i===state.activeDay) tab.style.borderColor = d.color;
+    tab.className = `day-tab ${isActiveTab?"active":""}`;
+    if (isActiveTab) tab.style.borderColor = d.color;
     let statusText, focusColor;
     if (status===true)           {statusText="✓ done";     focusColor="#441133";}
     else if (status==="partial") {statusText="⚡ partial"; focusColor="#c8a030";}
     else if (status==="skipped") {statusText="⚠ skipped"; focusColor="#884444";}
-    else                         {statusText=d.muscles;    focusColor=i===state.activeDay?d.color:"#fff";}
+    else                         {statusText=d.muscles;    focusColor=isActiveTab?d.color:"#fff";}
     tab.innerHTML=`
       <div class="day-tab-lbl">${d.label}</div>
       <div class="day-tab-focus" style="color:${focusColor}">${d.focus}</div>
       <div class="day-tab-muscles">${statusText}</div>`;
-    tab.onclick=()=>{state.activeDay=i;saveState();renderGym();};
+    tab.onclick=()=>{
+      if (isExtra) {
+        if (!confirm("Leave extra session? Progress will be lost.")) return;
+        state.extraSessionActive = false;
+        // Clear extra session checked/weights
+        const ex = week.extra;
+        realExercises(ex).forEach(({idx})=>{
+          delete state.checked[cKey(ex.id,idx)];
+          delete state.weights[wKey(ex.id,idx)];
+        });
+      }
+      state.activeDay=i; saveState(); renderGym();
+    };
     tabsEl.appendChild(tab);
   });
+  // If extra session is active, add an extra tab indicator
+  if (isExtra) {
+    const exTab = document.createElement("div");
+    exTab.className = "day-tab active";
+    exTab.style.borderColor = day.color;
+    exTab.style.gridColumn = "1 / -1";
+    exTab.style.background = "var(--surface2)";
+    exTab.innerHTML = `
+      <div class="day-tab-lbl">Extra Session</div>
+      <div class="day-tab-focus" style="color:${day.color}">${day.focus}</div>
+      <div class="day-tab-muscles">${day.muscles}</div>`;
+    tabsEl.appendChild(exTab);
+  }
 
   // Section header
-  document.getElementById("secFocus").textContent = day.focus;
+  document.getElementById("secFocus").textContent = isExtra ? `Extra · ${day.focus}` : day.focus;
   document.getElementById("secFocus").style.color = day.color;
   document.getElementById("durBadge").textContent = day.duration;
 
@@ -1120,129 +1199,189 @@ function renderGym() {
       return;
     }
     const ck=cKey(day.id,idx), wk=wKey(day.id,idx), ok=oKey(day.id,idx);
+    const nk=`${day.id}-${idx}-note`;
     const isDone=!!state.checked[ck];
     const accent=MUSCLE_COLORS[ex.muscle]||"#888";
-    const last=lastWeight(ex.name);
-    const curW=state.weights[wk]||"";
     const allTimePR=getPR(ex.name);
+    const curW=state.weights[wk]||"";
+    const curNote=(state.exerciseNotes||{})[nk]||"";
     const eff=getEffective(day.id,idx,ex);
     const isOverridden=!!(state.exOverrides||{})[ok];
 
-    // Check if current weight input is a new PR
+    // PR badge logic
     const curWFloat = parseFloat(curW);
     const isNewPR = !isNaN(curWFloat) && curWFloat > 0 && (allTimePR === null || curWFloat > allTimePR);
     const prHtml = isNewPR ? `<span class="pr-badge">★ PR</span>` : "";
 
-    // Last session info for this exercise
-    let lastInfo = "";
-    if (last !== null) {
-      const prCompare = allTimePR !== null && !isNewPR
-        ? `<span style="color:var(--dim)"> · best: ${allTimePR}kg</span>` : "";
-      lastInfo = `<div class="wt-last">Last time<span>${last} kg${prCompare}</span></div>`;
-    } else if (allTimePR !== null) {
-      lastInfo = `<div class="wt-last">Best<span>${allTimePR} kg</span></div>`;
+    // PR display — show only best, not last time
+    let prInfo = "";
+    if (allTimePR !== null) {
+      prInfo = `<div class="wt-last">Best<span>${allTimePR} kg</span></div>`;
     } else {
-      lastInfo = `<div class="wt-last"></div>`;
+      prInfo = `<div class="wt-last"></div>`;
     }
 
     const row=document.createElement("div");
     row.className=`ex-row ${isDone?"done":""}`;
     row.setAttribute('data-ex-idx', idx);
-    row.innerHTML=`
-      <div class="accent-bar" style="background:${accent}"></div>
-      <div class="ex-top">
-        <div class="chk">${isDone?"✓":""}</div>
-        <div>
-          <div class="ex-name">${ex.name}${isNewPR ? prHtml : ""}</div>
-          ${ex.note?`<div class="ex-note">${ex.note}</div>`:""}
-          <div class="muscle-tag" style="color:${accent};border:1px solid ${accent}22">${ex.muscle}</div>
-        </div>
-        <div class="ex-stats">
-          <div class="stat-reps" id="sr-reps-${ok}">${eff.reps}${isOverridden?'<span style="color:var(--muted);font-size:9px;"> *</span>':''}</div>
-          <div class="stat-sets" id="sr-sets-${ok}">${eff.sets} sets</div>
-          <div class="stat-rest">rest ${ex.rest}</div>
-        </div>
-      </div>
-      <div class="wt-row">
-        <div class="wt-lbl">Weight</div>
-        <input class="wt-input" type="number" inputmode="decimal" placeholder="—" value="${curW}" ${dayDone?"disabled":""}>
-        <div class="wt-unit">kg</div>
-        ${lastInfo}
-      </div>
-      <div class="sr-row" id="sr-row-${ok}">
-        <button class="sr-edit-btn ${isOverridden?'active':''}" id="sr-btn-${ok}"
-          onclick="toggleSREdit('${ok}',event)">${isOverridden?'✎ custom':'✎ edit'}</button>
-      </div>
-      <div class="sr-controls" id="sr-ctrl-${ok}" style="display:none;margin-top:6px;padding:8px 0 2px;border-top:1px solid #1a1a1a;">
-        <div class="sr-group">
-          <div class="sr-lbl">Sets</div>
-          <div class="sr-stepper">
-            <button class="sr-btn" onclick="stepSR('${ok}','sets',-1,event)">−</button>
-            <div class="sr-val" id="srv-sets-${ok}">${eff.sets}</div>
-            <button class="sr-btn" onclick="stepSR('${ok}','sets',1,event)">+</button>
+
+    if (ex.bodyweight) {
+      // Bodyweight exercise — checkbox only, no weight input
+      row.innerHTML=`
+        <div class="accent-bar" style="background:${accent}"></div>
+        <div class="ex-top">
+          <div class="chk">${isDone?"✓":""}</div>
+          <div>
+            <div class="ex-name">${ex.name}</div>
+            ${ex.note?`<div class="ex-note">${ex.note}</div>`:""}
+            <div class="muscle-tag" style="color:${accent};border:1px solid ${accent}22">${ex.muscle}</div>
+          </div>
+          <div class="ex-stats">
+            <div class="stat-reps">${eff.reps}</div>
+            <div class="stat-sets">${eff.sets} sets</div>
+            <div class="stat-rest">rest ${ex.rest}</div>
           </div>
         </div>
-        <div class="sr-group">
-          <div class="sr-lbl">Reps low</div>
-          <div class="sr-stepper">
-            <button class="sr-btn" onclick="stepSR('${ok}','repsLow',-1,event)">−</button>
-            <div class="sr-val" id="srv-repsLow-${ok}">${eff.repsLow}</div>
-            <button class="sr-btn" onclick="stepSR('${ok}','repsLow',1,event)">+</button>
+        <div class="bw-row">
+          <div class="bw-lbl">Bodyweight</div>
+        </div>
+        <div class="ex-note-row">
+          <textarea class="ex-note-input" placeholder="Notes for this exercise..." maxlength="280" rows="2" ${dayDone?"disabled":""}>${curNote}</textarea>
+        </div>`;
+    } else {
+      row.innerHTML=`
+        <div class="accent-bar" style="background:${accent}"></div>
+        <div class="ex-top">
+          <div class="chk">${isDone?"✓":""}</div>
+          <div>
+            <div class="ex-name">${ex.name}${isNewPR ? prHtml : ""}</div>
+            ${ex.note?`<div class="ex-note">${ex.note}</div>`:""}
+            <div class="muscle-tag" style="color:${accent};border:1px solid ${accent}22">${ex.muscle}</div>
+          </div>
+          <div class="ex-stats">
+            <div class="stat-reps" id="sr-reps-${ok}">${eff.reps}${isOverridden?'<span style="color:var(--muted);font-size:9px;"> *</span>':''}</div>
+            <div class="stat-sets" id="sr-sets-${ok}">${eff.sets} sets</div>
+            <div class="stat-rest">rest ${ex.rest}</div>
           </div>
         </div>
-        <div class="sr-group">
-          <div class="sr-lbl">Reps high</div>
-          <div class="sr-stepper">
-            <button class="sr-btn" onclick="stepSR('${ok}','repsHigh',-1,event)">−</button>
-            <div class="sr-val" id="srv-repsHigh-${ok}">${eff.repsHigh}</div>
-            <button class="sr-btn" onclick="stepSR('${ok}','repsHigh',1,event)">+</button>
-          </div>
+        <div class="wt-row">
+          <div class="wt-lbl">Weight</div>
+          <input class="wt-input" type="number" inputmode="decimal" placeholder="—" value="${curW}" ${dayDone?"disabled":""}>
+          <div class="wt-unit">kg</div>
+          ${prInfo}
         </div>
-        ${isOverridden?`<button class="sr-reset" onclick="resetSR('${ok}',event)" title="Reset to default">↺</button>`:''}
-      </div>`;
+        <div class="sr-row" id="sr-row-${ok}">
+          <button class="sr-edit-btn ${isOverridden?'active':''}" id="sr-btn-${ok}"
+            onclick="toggleSREdit('${ok}',event)">${isOverridden?'✎ custom':'✎ edit'}</button>
+        </div>
+        <div class="sr-controls" id="sr-ctrl-${ok}" style="display:none;margin-top:6px;padding:8px 0 2px;border-top:1px solid #1a1a1a;">
+          <div class="sr-group">
+            <div class="sr-lbl">Sets</div>
+            <div class="sr-stepper">
+              <button class="sr-btn" onclick="stepSR('${ok}','sets',-1,event)">−</button>
+              <div class="sr-val" id="srv-sets-${ok}">${eff.sets}</div>
+              <button class="sr-btn" onclick="stepSR('${ok}','sets',1,event)">+</button>
+            </div>
+          </div>
+          <div class="sr-group">
+            <div class="sr-lbl">Reps low</div>
+            <div class="sr-stepper">
+              <button class="sr-btn" onclick="stepSR('${ok}','repsLow',-1,event)">−</button>
+              <div class="sr-val" id="srv-repsLow-${ok}">${eff.repsLow}</div>
+              <button class="sr-btn" onclick="stepSR('${ok}','repsLow',1,event)">+</button>
+            </div>
+          </div>
+          <div class="sr-group">
+            <div class="sr-lbl">Reps high</div>
+            <div class="sr-stepper">
+              <button class="sr-btn" onclick="stepSR('${ok}','repsHigh',-1,event)">−</button>
+              <div class="sr-val" id="srv-repsHigh-${ok}">${eff.repsHigh}</div>
+              <button class="sr-btn" onclick="stepSR('${ok}','repsHigh',1,event)">+</button>
+            </div>
+          </div>
+          ${isOverridden?`<button class="sr-reset" onclick="resetSR('${ok}',event)" title="Reset to default">↺</button>`:''}
+        </div>
+        <div class="ex-note-row">
+          <textarea class="ex-note-input" placeholder="Notes for this exercise..." maxlength="280" rows="2" ${dayDone?"disabled":""}>${curNote}</textarea>
+        </div>`;
+    }
+
     row.querySelector(".ex-top").addEventListener("click",()=>{
       if(dayDone) return;
       state.checked[ck]=!state.checked[ck];
       saveState(); renderGym();
     });
-    const inp=row.querySelector(".wt-input");
-    inp.addEventListener("input",e=>{
+
+    if (!ex.bodyweight) {
+      const inp=row.querySelector(".wt-input");
+      inp.addEventListener("input",e=>{
+        e.stopPropagation();
+        state.weights[wk]=inp.value;
+        saveState();
+        renderVolumeCard(day, real);
+        const v = parseFloat(inp.value);
+        const pr = getPR(ex.name);
+        const nameEl = row.querySelector('.ex-name');
+        const existingBadge = nameEl.querySelector('.pr-badge');
+        if (!isNaN(v) && v > 0 && (pr === null || v > pr)) {
+          if (!existingBadge) nameEl.insertAdjacentHTML('beforeend','<span class="pr-badge">★ PR</span>');
+        } else {
+          if (existingBadge) existingBadge.remove();
+        }
+      });
+      inp.addEventListener("click",e=>e.stopPropagation());
+    }
+
+    const noteTA = row.querySelector('.ex-note-input');
+    noteTA.addEventListener("input", e => {
       e.stopPropagation();
-      state.weights[wk]=inp.value;
+      if (!state.exerciseNotes) state.exerciseNotes = {};
+      state.exerciseNotes[nk] = noteTA.value;
       saveState();
-      renderVolumeCard(day, real);
-      // Show PR badge live as user types
-      const v = parseFloat(inp.value);
-      const pr = getPR(ex.name);
-      const nameEl = row.querySelector('.ex-name');
-      const existingBadge = nameEl.querySelector('.pr-badge');
-      if (!isNaN(v) && v > 0 && (pr === null || v > pr)) {
-        if (!existingBadge) nameEl.insertAdjacentHTML('beforeend','<span class="pr-badge">★ PR</span>');
-      } else {
-        if (existingBadge) existingBadge.remove();
-      }
     });
-    inp.addEventListener("click",e=>e.stopPropagation());
+    noteTA.addEventListener("click", e => e.stopPropagation());
+
     listEl.appendChild(row);
   });
 
   // Init sticky exercise indicator
   initStickyEx(day, real, day.color);
 
+  // Check if all 3 regular days are done
+  const allRegularDone = week.days.every(d=>state.completedDays[d.id]);
+
   // Buttons
   const btn=document.getElementById("completeBtn");
   const skipBtn=document.getElementById("skipBtn");
+  const finishWrap=document.getElementById("finishWeekWrap");
+  const extraWrap=document.getElementById("extraSessionWrap");
+  const finishBtn=document.getElementById("finishWeekBtn");
   const status=state.completedDays[day.id];
+
   if (status) {
     const lbl=status==="skipped"?"⚠ Day Skipped":status==="partial"?"⚡ Partial – saved":"✓ Day Complete";
     btn.textContent=lbl; btn.className="complete-btn not-ready";
-    btn.style.background=btn.style.color=""; skipBtn.disabled=true;
+    btn.style.background=btn.style.color=btn.style.boxShadow=""; skipBtn.disabled=true;
   } else if (doneCount===real.length && real.length>0) {
     btn.textContent="Mark Day Complete ✓"; btn.className="complete-btn";
     btn.style.background=day.color; btn.style.color="#fff"; btn.style.boxShadow=`0 0 20px ${day.color}55`; skipBtn.disabled=false;
   } else {
     btn.textContent="Complete All Exercises First"; btn.className="complete-btn not-ready";
     btn.style.background=btn.style.color=btn.style.boxShadow=""; skipBtn.disabled=false;
+  }
+
+  // Show finish week / extra session buttons when all 3 regular days are done
+  if (allRegularDone && !isExtra) {
+    finishWrap.style.display="block";
+    extraWrap.style.display = state.completedDays[week.extra.id] ? "none" : "block";
+    const nextWeek = state.currentWeek==="A"?"B":"A";
+    finishBtn.textContent = `✓ Finish Week → Start Week ${nextWeek}`;
+    finishBtn.style.background = nextWeek==="A" ? "#ff2d78" : "#00f5d4";
+    finishBtn.style.color = "#fff";
+    finishBtn.style.boxShadow = nextWeek==="A" ? "0 0 20px #ff2d7855" : "0 0 20px #00f5d444";
+  } else {
+    finishWrap.style.display="none";
+    extraWrap.style.display="none";
   }
 
   // Tips
@@ -1271,12 +1410,19 @@ function toggleSREdit(ok, e) {
 function stepSR(ok, field, delta, e) {
   e.stopPropagation();
   if (!state.exOverrides) state.exOverrides = {};
-  // Find the base exercise to initialise from if no override yet
   let base = null;
   for (const wk of Object.keys(WEEKS)) {
-    for (const d of WEEKS[wk].days) {
+    const week = WEEKS[wk];
+    // Search regular days
+    for (const d of week.days) {
       d.exercises.forEach((ex, idx) => {
         if (!ex.divider && oKey(d.id, idx) === ok) base = { ex, dayId: d.id, idx };
+      });
+    }
+    // Search extra day
+    if (week.extra) {
+      week.extra.exercises.forEach((ex, idx) => {
+        if (!ex.divider && oKey(week.extra.id, idx) === ok) base = { ex, dayId: week.extra.id, idx };
       });
     }
   }
@@ -1284,22 +1430,18 @@ function stepSR(ok, field, delta, e) {
   const eff = getEffective(base.dayId, base.idx, base.ex);
   const cur = state.exOverrides[ok] || { sets: eff.sets, repsLow: eff.repsLow, repsHigh: eff.repsHigh };
   let val = (cur[field] || 1) + delta;
-  // Clamps
-  if (field === 'sets')                    val = Math.max(1, Math.min(10, val));
-  if (field === 'repsLow')                 val = Math.max(1, Math.min(cur.repsHigh || 30, val));
-  if (field === 'repsHigh')                val = Math.max(cur.repsLow || 1, Math.min(50, val));
+  if (field === 'sets')     val = Math.max(1, Math.min(10, val));
+  if (field === 'repsLow')  val = Math.max(1, Math.min(cur.repsHigh || 30, val));
+  if (field === 'repsHigh') val = Math.max(cur.repsLow || 1, Math.min(50, val));
   state.exOverrides[ok] = { ...cur, [field]: val };
   saveState();
-  // Update display inline without full re-render
   const valEl = document.getElementById(`srv-${field}-${ok}`);
   if (valEl) valEl.textContent = val;
-  // Update the stat display at top of card
   const newEff = state.exOverrides[ok];
   const repsEl = document.getElementById(`sr-reps-${ok}`);
   const setsEl = document.getElementById(`sr-sets-${ok}`);
   if (repsEl) repsEl.innerHTML = fmtReps(newEff.repsLow, newEff.repsHigh) + '<span style="color:var(--muted);font-size:9px;"> *</span>';
   if (setsEl) setsEl.textContent = `${newEff.sets} sets`;
-  // Keep repsLow ≤ repsHigh in sync
   if (field === 'repsLow' && newEff.repsHigh < val) {
     state.exOverrides[ok].repsHigh = val;
     const highEl = document.getElementById(`srv-repsHigh-${ok}`);
@@ -1316,7 +1458,9 @@ function resetSR(ok, e) {
 }
 
 function completeDay() {
-  const week=WEEKS[state.currentWeek], day=week.days[state.activeDay];
+  const week=WEEKS[state.currentWeek];
+  const isExtra = !!state.extraSessionActive;
+  const day = isExtra ? week.extra : week.days[state.activeDay];
   const real=realExercises(day);
   const doneCount=real.filter(({idx})=>!!state.checked[cKey(day.id,idx)]).length;
   if (doneCount<real.length || state.completedDays[day.id]) return;
@@ -1324,7 +1468,9 @@ function completeDay() {
 }
 
 function skipDay() {
-  const week=WEEKS[state.currentWeek], day=week.days[state.activeDay];
+  const week=WEEKS[state.currentWeek];
+  const isExtra = !!state.extraSessionActive;
+  const day = isExtra ? week.extra : week.days[state.activeDay];
   if (state.completedDays[day.id]) return;
   const real=realExercises(day);
   const doneCount=real.filter(({idx})=>!!state.checked[cKey(day.id,idx)]).length;
@@ -1338,12 +1484,20 @@ function skipDay() {
 
 function saveGymSession(day, real, status) {
   const week=WEEKS[state.currentWeek];
+  const isExtra = !!state.extraSessionActive;
   const kcal=estimateGymCalories(day);
+  // Collect notes per exercise
+  const notes = {};
+  real.forEach(({idx}) => {
+    const nk = `${day.id}-${idx}-note`;
+    const n = (state.exerciseNotes||{})[nk];
+    if (n && n.trim()) notes[idx] = n.trim();
+  });
   state.sessionHistory.push({
     kind:"gym",
     date:new Date().toISOString(),
-    weekLabel:`Week ${state.currentWeek}`,
-    dayId:day.id, dayLabel:day.label,
+    weekLabel:`Week ${state.currentWeek}${isExtra?" (Extra)":""}`,
+    dayId:day.id, dayLabel:isExtra?"Extra":day.label,
     focus:day.focus, type:day.type,
     status:status,
     caloriesBurned: status==="skipped" ? null : kcal,
@@ -1351,25 +1505,38 @@ function saveGymSession(day, real, status) {
       name:ex.name, muscle:ex.muscle,
       sets: getEffective(day.id, idx, ex).sets,
       reps: getEffective(day.id, idx, ex).reps,
-      weight:state.weights[wKey(day.id,idx)]||null,
+      weight: ex.bodyweight ? null : (state.weights[wKey(day.id,idx)]||null),
       completed:!!state.checked[cKey(day.id,idx)],
+      note: notes[idx] || null,
     }))
   });
   state.completedDays[day.id]=status;
+  if (isExtra) state.extraSessionActive = false;
   saveState();
   hideStickyEx();
-  const allDone=week.days.every(d=>state.completedDays[d.id]);
-  if (allDone) { showWeekOverlay(); }
-  else {
-    const nextIdx=week.days.findIndex((d,i)=>i>state.activeDay&&!state.completedDays[d.id]);
-    if (nextIdx!==-1){state.activeDay=nextIdx;saveState();}
-    renderGym();
+  renderGym();
+}
+
+function startExtraSession() {
+  const week=WEEKS[state.currentWeek];
+  const allRegularDone=week.days.every(d=>state.completedDays[d.id]);
+  if (!allRegularDone) return;
+  if (state.completedDays[week.extra.id]) {
+    alert("Extra session already completed this week.");
+    return;
   }
+  state.extraSessionActive = true;
+  saveState();
+  renderGym();
+}
+
+function finishWeek() {
+  showWeekOverlay();
 }
 
 function showWeekOverlay() {
   const next=state.currentWeek==="A"?"B":"A";
-  document.getElementById("ovSub").textContent=`All 3 days of Week ${state.currentWeek} complete. Rest up!`;
+  document.getElementById("ovSub").textContent=`Week ${state.currentWeek} complete. Rest up!`;
   document.getElementById("ovNext").innerHTML=`Next up<span>Week ${next} · ${WEEKS[next].pattern}</span>`;
   document.getElementById("ovBtn").style.background=next==="A"?"#ff2d78":"#00f5d4";
   document.getElementById("ovBtn").style.color="#fff";
@@ -1380,7 +1547,9 @@ function showWeekOverlay() {
 function advanceWeek() {
   const next=state.currentWeek==="A"?"B":"A";
   state.currentWeek=next; state.activeDay=0;
-  state.checked={}; state.weights={}; state.completedDays={}; state.exOverrides={};
+  state.checked={}; state.weights={}; state.completedDays={};
+  state.exOverrides={}; state.extraSessionActive=false;
+  state.exerciseNotes={};
   saveState();
   document.getElementById("weekOverlay").classList.remove("show");
   renderGym();
@@ -1594,6 +1763,7 @@ function renderHistGym(s, realIdx, isSelected) {
       <div>
         <div class="hist-ex-name">${skipped?"✗ ":""}${ex.name}</div>
         <div class="hist-ex-muscle" style="color:${ac}">${ex.muscle}</div>
+        ${ex.note?`<div class="hist-ex-note">📝 ${ex.note}</div>`:""}
       </div>
       <div>
         <div class="hist-ex-wt">${ex.weight?ex.weight+" kg":"—"}</div>
@@ -1747,29 +1917,33 @@ function saveRunEdits(realIdx) {
   }, 50);
 }
 
-// Current data version — bump this when making breaking structural changes
-const DATA_VERSION = 1;
-
 function exportHistory() {
-  const blob = new Blob(
-    [JSON.stringify({
-      exportDate: new Date().toISOString(),
-      version: DATA_VERSION,
-      sessions: state.sessionHistory
-    }, null, 2)],
-    {type:"application/json"}
-  );
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
+  const exportData = {
+    exportDate: new Date().toISOString(),
+    version: DATA_VERSION,
+    // Full app state
+    currentWeek: state.currentWeek,
+    activeDay: state.activeDay,
+    checked: state.checked,
+    weights: state.weights,
+    completedDays: state.completedDays,
+    exOverrides: state.exOverrides || {},
+    extraSessionActive: state.extraSessionActive || false,
+    exerciseNotes: state.exerciseNotes || {},
+    profile: state.profile,
+    sessions: state.sessionHistory,
+  };
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
   a.href=url; a.download=`trainapp-${new Date().toISOString().slice(0,10)}.json`;
   a.click(); URL.revokeObjectURL(url);
 }
 
-// Normalize a session to current structure, filling in defaults for missing fields
 function migrateSession(s) {
   if (s.kind === "gym") {
     return {
-      kind: "gym",
+      kind:"gym",
       date: s.date || new Date().toISOString(),
       weekLabel: s.weekLabel || "",
       dayId: s.dayId || "",
@@ -1785,11 +1959,12 @@ function migrateSession(s) {
         reps: ex.reps || "8–10",
         weight: ex.weight ?? null,
         completed: ex.completed ?? true,
+        note: ex.note ?? null,
       }))
     };
   } else if (s.kind === "run") {
     return {
-      kind: "run",
+      kind:"run",
       date: s.date || new Date().toISOString(),
       distanceKm: s.distanceKm ?? 0,
       durationMins: s.durationMins ?? 0,
@@ -1798,7 +1973,7 @@ function migrateSession(s) {
       speed: s.speed || "—",
     };
   }
-  return s; // unknown kind, pass through
+  return s;
 }
 
 function importHistory(event) {
@@ -1808,32 +1983,44 @@ function importHistory(event) {
   reader.onload = function(e) {
     try {
       const data = JSON.parse(e.target.result);
-
-      // Version check — warn if file is from a future version
       if (data.version && data.version > DATA_VERSION) {
         alert(`⚠ This export was made with a newer version of the app (v${data.version}). Some data may not import correctly.`);
       }
-
-      // Support both sessions-only export and full state export
       if (data.sessions && Array.isArray(data.sessions)) {
-        if (!confirm(`Import ${data.sessions.length} sessions? This will merge with your existing data.`)) return;
-        const migrated = data.sessions.map(migrateSession);
-        const existingKeys = new Set(state.sessionHistory.map(s => s.date + s.kind));
-        const newSessions = migrated.filter(s => !existingKeys.has(s.date + s.kind));
-        state.sessionHistory = [...state.sessionHistory, ...newSessions]
-          .sort((a,b) => new Date(a.date) - new Date(b.date));
-        saveState();
-        renderHistPanel();
-        renderHome();
-        alert(`✓ Imported ${newSessions.length} new sessions.${newSessions.length < data.sessions.length ? ` ${data.sessions.length - newSessions.length} duplicate(s) skipped.` : ""}`);
-      } else if (data.sessionHistory) {
-        if (!confirm(`Import full app state? This will replace all current data.`)) return;
-        const migrated = (data.sessionHistory || []).map(migrateSession);
-        state = {...defaultState(), ...data, sessionHistory: migrated};
-        saveState();
-        renderHistPanel();
-        renderHome();
-        alert(`✓ Full state imported successfully.`);
+        // Full state export (new format)
+        if (data.currentWeek !== undefined) {
+          if (!confirm(`Import full app state from ${data.exportDate ? new Date(data.exportDate).toLocaleDateString() : "unknown date"}? This will replace all current data.`)) return;
+          const migrated = data.sessions.map(migrateSession);
+          state = {
+            ...defaultState(),
+            currentWeek: data.currentWeek || "A",
+            activeDay: data.activeDay || 0,
+            checked: data.checked || {},
+            weights: data.weights || {},
+            completedDays: data.completedDays || {},
+            exOverrides: data.exOverrides || {},
+            extraSessionActive: data.extraSessionActive || false,
+            exerciseNotes: data.exerciseNotes || {},
+            profile: data.profile || { age:null, weight:null, height:null },
+            sessionHistory: migrated,
+          };
+          saveState();
+          renderHome();
+          renderGym();
+          alert(`✓ Full state imported. ${migrated.length} sessions restored.`);
+        } else {
+          // Legacy sessions-only export — merge
+          if (!confirm(`Import ${data.sessions.length} sessions? This will merge with your existing data.`)) return;
+          const migrated = data.sessions.map(migrateSession);
+          const existingKeys = new Set(state.sessionHistory.map(s => s.date + s.kind));
+          const newSessions = migrated.filter(s => !existingKeys.has(s.date + s.kind));
+          state.sessionHistory = [...state.sessionHistory, ...newSessions]
+            .sort((a,b) => new Date(a.date) - new Date(b.date));
+          saveState();
+          renderHistPanel();
+          renderHome();
+          alert(`✓ Imported ${newSessions.length} new sessions.${newSessions.length < data.sessions.length ? ` ${data.sessions.length - newSessions.length} duplicate(s) skipped.` : ""}`);
+        }
       } else {
         alert("Unrecognised file format. Please use a file exported from this app.");
       }
