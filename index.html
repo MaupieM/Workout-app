@@ -72,7 +72,7 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
 .week-badge-val{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:.04em;line-height:1;}
 .week-badge-pat{font-size:7px;color:var(--muted);margin-top:2px;letter-spacing:.04em;}
 
-.day-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:13px 20px;}
+.day-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:10px 20px;}
 .day-tab{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:9px 5px;cursor:pointer;text-align:center;transition:all .12s;-webkit-user-select:none;user-select:none;}
 .day-tab:active{transform:scale(.97);}
 .day-tab.active{background:var(--surface2);border-width:2px;}
@@ -105,6 +105,17 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
 .ex-row.done .chk{background:var(--dim);border-color:#553366;}
 .ex-name{font-family:'Chakra Petch',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#e5e5e5;line-height:1.2;}
 .ex-note{font-size:8px;color:var(--muted);letter-spacing:.08em;margin-top:2px;}
+
+/* EXERCISE NOTES */
+.ex-note-row{margin-top:8px;padding-top:8px;border-top:1px solid var(--dim);}
+.ex-note-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:0;color:#aaa;font-family:'Chakra Petch',sans-serif;font-size:9px;padding:6px 9px;resize:none;letter-spacing:.04em;line-height:1.5;}
+.ex-note-input:focus{outline:none;border-color:var(--muted);color:#ddd;}
+.ex-note-input::placeholder{color:var(--dim);}
+.hist-ex-note{font-size:8px;color:var(--muted);letter-spacing:.04em;margin-top:3px;line-height:1.5;font-style:italic;}
+
+/* BODYWEIGHT EXERCISE */
+.bw-row{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:9px;border-top:1px solid var(--dim);}
+.bw-lbl{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
 .muscle-tag{display:inline-block;font-size:7px;letter-spacing:.12em;text-transform:uppercase;padding:2px 5px;border-radius:0;background:var(--surface2);margin-top:3px;}
 .ex-stats{text-align:right;flex-shrink:0;}
 .stat-reps{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:#fff;white-space:nowrap;line-height:1;}
@@ -311,22 +322,6 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
 .sess-edit-unit{font-size:9px;color:var(--muted);letter-spacing:.08em;flex-shrink:0;}
 .sess-save-btn{width:100%;margin-top:10px;padding:10px;border:none;border-radius:0;background:var(--push);color:#fff;font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 12px #ff2d7844;}
 .sess-save-btn:active{opacity:.8;}
-/* EXERCISE NOTES */
-.ex-note-row{margin-top:8px;padding-top:8px;border-top:1px solid var(--dim);}
-.ex-note-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:0;color:#aaa;font-family:'Chakra Petch',sans-serif;font-size:9px;padding:6px 9px;resize:none;letter-spacing:.04em;line-height:1.5;}
-.ex-note-input:focus{outline:none;border-color:var(--muted);color:#ddd;}
-.ex-note-input::placeholder{color:var(--dim);}
-.hist-ex-note{font-size:8px;color:var(--muted);letter-spacing:.04em;margin-top:3px;line-height:1.5;font-style:italic;}
-/* EXTRA SESSION & FINISH WEEK BUTTONS */
-.extra-session-wrap{padding:0 20px 6px;}
-.extra-session-btn{width:100%;padding:11px;border:1px solid var(--pull);border-radius:0;font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--pull);box-shadow:0 0 12px #00f5d422;-webkit-user-select:none;user-select:none;}
-.extra-session-btn:active{opacity:.8;}
-.finish-week-wrap{padding:0 20px 6px;}
-.finish-week-btn{width:100%;padding:11px;border:none;border-radius:0;font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;-webkit-user-select:none;user-select:none;}
-.finish-week-btn:active{transform:scale(.98);}
-/* BODYWEIGHT EXERCISE */
-.bw-row{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:9px;border-top:1px solid var(--dim);}
-.bw-lbl{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
 </style>
 </head>
 <body>
@@ -391,15 +386,15 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
   <div class="hdr">
     <div class="hdr-inner">
       <div class="hdr-left">
-        <div class="hdr-eyebrow">Home Gym · 3 Days/Week</div>
+        <div class="hdr-eyebrow">Home Gym · 5 Days/Week</div>
         <div class="hdr-title">Lift</div>
-        <div class="hdr-sub">Push · Pull · Legs Hybrid</div>
+        <div class="hdr-sub">Push · Pull · Legs · Core</div>
       </div>
       <div class="hdr-right">
         <div class="week-badge" id="weekBadge">
-          <div class="week-badge-lbl">Week</div>
-          <div class="week-badge-val" id="weekBadgeVal">A</div>
-          <div class="week-badge-pat" id="weekBadgePat"></div>
+          <div class="week-badge-lbl">Program</div>
+          <div class="week-badge-val" id="weekBadgeVal">PPL</div>
+          <div class="week-badge-pat" id="weekBadgePat">5-day split</div>
         </div>
         <button class="icon-btn" onclick="goTo('homeScreen')">← Home</button>
       </div>
@@ -444,12 +439,10 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
   <div class="skip-wrap">
     <button class="skip-btn" id="skipBtn" onclick="skipDay()">⚠ Skip / Cut Short</button>
   </div>
-  <div class="finish-week-wrap" id="finishWeekWrap" style="display:none">
-    <button class="finish-week-btn" id="finishWeekBtn" onclick="finishWeek()">✓ Finish Week → Next Week</button>
+  <div class="finish-week-wrap" id="finishWeekWrap" style="display:none;padding:0 20px 6px;">
+    <button class="complete-btn" id="finishWeekBtn" onclick="finishWeek()" style="width:100%;padding:13px;border:none;border-radius:var(--radius);font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">✓ Week Complete — Reset for Next Week</button>
   </div>
-  <div class="extra-session-wrap" id="extraSessionWrap" style="display:none">
-    <button class="extra-session-btn" onclick="startExtraSession()">+ Add Extra Session</button>
-  </div>
+  <div id="extraSessionWrap" style="display:none;"></div>
 
   <div class="tips-tog" onclick="toggleTips()">
     <div class="tips-tog-lbl">// Program Notes</div>
@@ -577,7 +570,7 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
     <div class="ov-title">Week Done!</div>
     <div class="ov-sub" id="ovSub"></div>
     <div class="ov-next" id="ovNext"></div>
-    <button class="ov-btn" id="ovBtn" onclick="advanceWeek()">Start Next Week</button>
+    <button class="ov-btn" id="ovBtn" onclick="advanceWeek()">Start New Week</button>
   </div>
 </div>
 
@@ -613,123 +606,90 @@ html,body{background:var(--bg);color:#f0f0f0;font-family:'Chakra Petch',sans-ser
 // DATA — WORKOUT PROGRAM
 // ═══════════════════════════════════════════════════════
 
-const WEEKS = {
-  A:{
-    pattern:"Push · Pull · Push",
-    days:[
-      {id:"A1",label:"Day 1",focus:"Push",type:"push",muscles:"Chest · Shoulders · Triceps",color:"#ff2d78",duration:"~45 min",
-       durationMins:47,
-       exercises:[
-        {name:"Chest Press",sets:4,reps:"8–10",rest:"90s",muscle:"Chest"},
-        {name:"Shoulder Press",sets:3,reps:"8–10",rest:"90s",muscle:"Shoulders"},
-        {name:"Arm Adduction",sets:3,reps:"10–12",rest:"60s",muscle:"Chest"},
-        {name:"Front Raise",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
-        {name:"Arm Extension",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
-        {name:"Arm Extension – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
-      ]},
-      {id:"A2",label:"Day 2",focus:"Pull",type:"pull",muscles:"Back · Biceps",color:"#00f5d4",duration:"~45 min",
-       durationMins:47,
-       exercises:[
-        {name:"Lat Pulldown",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
-        {name:"Row – Wide Grip",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
-        {name:"Row – High",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
-        {name:"Arm Curl – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps"},
-        {name:"Arm Curl",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps"},
-        {name:"Bent-Over Reverse Fly",sets:3,reps:"12–15",rest:"60s",muscle:"Back",note:"Test space first"},
-      ]},
-      {id:"A3",label:"Day 3",focus:"Push",type:"push",muscles:"Chest · Shoulders · Triceps",color:"#ff2d78",duration:"~50 min",
-       durationMins:52,
-       exercises:[
-        {name:"Chest Press",sets:4,reps:"8–10",rest:"90s",muscle:"Chest",note:"Vary grip from Day 1"},
-        {name:"Upright Row – Wide Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
-        {name:"Arm Extension – Supine Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
-        {name:"Shoulder Press",sets:3,reps:"8–10",rest:"90s",muscle:"Shoulders"},
-        {name:"Arm Adduction",sets:3,reps:"10–12",rest:"60s",muscle:"Chest"},
-        {name:"Calf Raise",sets:3,reps:"15–20",rest:"45s",muscle:"Calves"},
-      ]},
-    ],
-    extra:{id:"AX",label:"Extra",focus:"Pull",type:"pull",muscles:"Back · Biceps · Core",color:"#00f5d4",duration:"~55 min",
-     durationMins:55,
-     exercises:[
-      {name:"Pulldown – Reverse Grip",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
-      {name:"Pull Over",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
-      {name:"Pulldown – Standing – Prone Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
-      {name:"Arm Curl – Single Arm – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps",note:"Each arm"},
-      {name:"Row – High",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
-      {divider:"Core Finisher"},
-      {name:"Plank",sets:3,reps:"40s",rest:"45s",muscle:"Core",bodyweight:true},
-      {name:"Leg Raises",sets:3,reps:"12–15",rest:"45s",muscle:"Core",bodyweight:true},
-      {name:"Dead Bug",sets:3,reps:"10 each side",rest:"45s",muscle:"Core",bodyweight:true},
-    ]}
-  },
-  B:{
-    pattern:"Pull · Push · Pull",
-    days:[
-      {id:"B1",label:"Day 1",focus:"Pull",type:"pull",muscles:"Back · Biceps",color:"#00f5d4",duration:"~45 min",
-       durationMins:47,
-       exercises:[
-        {name:"Lat Pulldown",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
-        {name:"Row – Wide Grip",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
-        {name:"Pull Over",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
-        {name:"Arm Curl – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps"},
-        {name:"Arm Curl – Single Arm – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps",note:"Each arm"},
-        {name:"Bent-Over Reverse Fly",sets:3,reps:"12–15",rest:"60s",muscle:"Back",note:"Test space first"},
-      ]},
-      {id:"B2",label:"Day 2",focus:"Push",type:"push",muscles:"Chest · Shoulders · Triceps",color:"#ff2d78",duration:"~45 min",
-       durationMins:47,
-       exercises:[
-        {name:"Chest Press",sets:4,reps:"8–10",rest:"90s",muscle:"Chest"},
-        {name:"Shoulder Press",sets:3,reps:"8–10",rest:"90s",muscle:"Shoulders"},
-        {name:"Arm Adduction",sets:3,reps:"10–12",rest:"60s",muscle:"Chest"},
-        {name:"Upright Row – Narrow Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
-        {name:"Arm Extension",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
-        {name:"Arm Extension – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
-      ]},
-      {id:"B3",label:"Day 3",focus:"Pull",type:"pull",muscles:"Back · Biceps",color:"#00f5d4",duration:"~50 min",
-       durationMins:52,
-       exercises:[
-        {name:"Pulldown – Reverse Grip",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
-        {name:"Pulldown – Standing – Supine Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
-        {name:"Row – High",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
-        {name:"Arm Curl – Single Arm – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps",note:"Each arm"},
-        {name:"Bent-Over Reverse Fly",sets:3,reps:"12–15",rest:"60s",muscle:"Back",note:"Test space first"},
-        {name:"Arm Curl – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps"},
-        {name:"Calf Raise",sets:3,reps:"15–20",rest:"45s",muscle:"Calves"},
-      ]},
-    ],
-    extra:{id:"BX",label:"Extra",focus:"Push",type:"push",muscles:"Chest · Shoulders · Triceps · Core",color:"#ff2d78",duration:"~55 min",
-     durationMins:55,
+// ═══════════════════════════════════════════════════════
+// WORKOUT PROGRAM — 5 DAY SPLIT
+// Push 1 · Pull 1 · Legs+Core · Push 2 · Pull 2
+// ═══════════════════════════════════════════════════════
+
+const PROGRAM = {
+  days:[
+    {id:"D1",label:"Day 1",focus:"Push",type:"push",muscles:"Chest · Shoulders · Triceps",color:"#ff2d78",duration:"~45 min",
+     durationMins:47,
      exercises:[
       {name:"Chest Press",sets:4,reps:"8–10",rest:"90s",muscle:"Chest"},
+      {name:"Shoulder Press",sets:3,reps:"8–10",rest:"90s",muscle:"Shoulders"},
+      {name:"Arm Adduction",sets:3,reps:"10–12",rest:"60s",muscle:"Chest"},
       {name:"Front Raise",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
-      {name:"Arm Extension – Supine Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
-      {name:"Upright Row – Wide Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
-      {name:"Triceps Kick Back – Bent-Over",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
+      {name:"Arm Extension",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
+      {name:"Arm Extension – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
+    ]},
+    {id:"D2",label:"Day 2",focus:"Pull",type:"pull",muscles:"Back · Biceps",color:"#00f5d4",duration:"~45 min",
+     durationMins:47,
+     exercises:[
+      {name:"Lat Pulldown",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
+      {name:"Row – Wide Grip",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
+      {name:"Pull Over",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
+      {name:"Arm Curl – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps"},
+      {name:"Arm Curl – Single Arm – Standing",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps",note:"Each arm"},
+      {name:"Bent-Over Reverse Fly",sets:3,reps:"12–15",rest:"60s",muscle:"Back",note:"Test space first"},
+    ]},
+    {id:"D3",label:"Day 3",focus:"Legs + Core",type:"legs",muscles:"Quads · Glutes · Hamstrings · Calves · Core",color:"#cc44ff",duration:"~55 min",
+     durationMins:55,
+     exercises:[
+      {name:"Leg Extension",sets:4,reps:"12–15",rest:"60s",muscle:"Legs"},
+      {name:"Hip Extension",sets:4,reps:"12–15",rest:"60s",muscle:"Glutes"},
+      {name:"Single Hip Abduction",sets:3,reps:"12–15",rest:"60s",muscle:"Glutes"},
+      {name:"Single Hip Adduction",sets:3,reps:"12–15",rest:"60s",muscle:"Legs"},
+      {name:"Calf Raise",sets:3,reps:"15–20",rest:"45s",muscle:"Calves"},
+      {divider:"Hamstrings · Floor"},
+      {name:"Nordic Curl",sets:3,reps:"6–10",rest:"90s",muscle:"Hamstrings",bodyweight:true,note:"Hook feet under sofa or bed frame"},
+      {name:"Glute Bridge",sets:3,reps:"15–20",rest:"60s",muscle:"Hamstrings",bodyweight:true,note:"Bodyweight or hold 1.5kg"},
       {divider:"Core Finisher"},
       {name:"Plank",sets:3,reps:"40s",rest:"45s",muscle:"Core",bodyweight:true},
       {name:"Leg Raises",sets:3,reps:"12–15",rest:"45s",muscle:"Core",bodyweight:true},
       {name:"Dead Bug",sets:3,reps:"10 each side",rest:"45s",muscle:"Core",bodyweight:true},
-    ]}
-  }
+    ]},
+    {id:"D4",label:"Day 4",focus:"Push",type:"push",muscles:"Chest · Shoulders · Triceps",color:"#ff2d78",duration:"~45 min",
+     durationMins:47,
+     exercises:[
+      {name:"Chest Press",sets:4,reps:"8–10",rest:"90s",muscle:"Chest",note:"Vary grip from Day 1"},
+      {name:"Upright Row – Wide Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
+      {name:"Arm Adduction",sets:3,reps:"10–12",rest:"60s",muscle:"Chest"},
+      {name:"Upright Row – Narrow Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Shoulders"},
+      {name:"Arm Extension – Supine Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
+      {name:"Triceps Kick Back – Bent-Over",sets:3,reps:"10–12",rest:"60s",muscle:"Triceps"},
+    ]},
+    {id:"D5",label:"Day 5",focus:"Pull",type:"pull",muscles:"Back · Biceps",color:"#00f5d4",duration:"~45 min",
+     durationMins:47,
+     exercises:[
+      {name:"Pulldown – Reverse Grip",sets:4,reps:"8–10",rest:"90s",muscle:"Back"},
+      {name:"Row – High",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
+      {name:"Pulldown – Standing – Prone Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
+      {name:"Pulldown – Standing – Supine Grip",sets:3,reps:"10–12",rest:"60s",muscle:"Back"},
+      {name:"Arm Curl",sets:3,reps:"10–12",rest:"60s",muscle:"Biceps"},
+      {name:"Bent-Over Reverse Fly",sets:3,reps:"12–15",rest:"60s",muscle:"Back",note:"Test space first"},
+    ]},
+  ]
 };
 
 const MUSCLE_COLORS = {
   Chest:"#ff2d78",Shoulders:"#ff2d78",Triceps:"#ff9500",
   Back:"#00f5d4",Biceps:"#44ddcc",
-  Legs:"#cc44ff",Glutes:"#aa33ee",Calves:"#9922dd"
+  Legs:"#cc44ff",Glutes:"#aa33ee",Calves:"#9922dd",
+  Hamstrings:"#cc44ff",Core:"#ffcc00",
 };
 
 // MET values per workout type for calorie calculation
-// Resistance training MET ≈ 3.5–6 depending on intensity
-const DAY_MET = { push: 4.5, pull: 4.2, legs: 3.8 };
+const DAY_MET = { push: 4.5, pull: 4.2, legs: 4.0 };
 
 const TIPS = [
-  "Alternate weeks: A (Push/Pull/Push) → B (Pull/Push/Pull) → repeat",
-  "Rest 48hrs between sessions — e.g. Mon / Wed / Fri",
+  "5-day split: Push · Pull · Legs+Core · Push · Pull — flex days to fit your week",
+  "Each muscle group hits twice per week — optimal for hypertrophy",
   "Progressive overload: add weight when you hit the top rep range for all sets",
   "Warm up with 1 light set before your first exercise each day",
+  "Nordic curls: hook feet under sofa/bed frame — start with partial range if needed",
+  "Legs day floor exercises need your yoga mat — keep it nearby",
   "Bent-Over Reverse Fly may need floor space — test before adding",
-  "Single Hip Abduction available as a swap-in for extra glute work",
 ];
 
 // ═══════════════════════════════════════════════════════
@@ -737,15 +697,13 @@ const TIPS = [
 // ═══════════════════════════════════════════════════════
 
 const LS_KEY = "trainapp_v1";
-const DATA_VERSION = 2;
 
 function defaultState() {
   return {
-    currentWeek:"A", activeDay:0,
+    activeDay:0,
     checked:{}, weights:{}, completedDays:{},
     exOverrides:{},
-    extraSessionActive: false, // whether we're currently in an extra session
-    exerciseNotes:{}, // { "dayId-idx": "note text" }
+    exerciseNotes:{},
     sessionHistory:[],
     profile:{ age:null, weight:null, height:null },
   };
@@ -843,8 +801,7 @@ function getEffective(dayId, idx, ex) {
 function goTo(screenId) {
   // Mid-workout confirmation: warn if leaving gym with progress unsaved
   if (document.getElementById('gymScreen').classList.contains('active') && screenId !== 'gymScreen') {
-    const week = WEEKS[state.currentWeek];
-    const day  = week.days[state.activeDay];
+    const day = PROGRAM.days[state.activeDay];
     if (!state.completedDays[day.id]) {
       const real = realExercises(day);
       const doneCount = real.filter(({idx}) => !!state.checked[cKey(day.id, idx)]).length;
@@ -1000,7 +957,8 @@ function initStickyEx(day, real, color) {
 }
 
 function hideStickyEx() {
-  document.getElementById('stickyEx').classList.remove('visible');
+  const el = document.getElementById('stickyEx');
+  if (el) el.classList.remove('visible');
   if (stickyScrollHandler) {
     window.removeEventListener('scroll', stickyScrollHandler);
     stickyScrollHandler = null;
@@ -1086,18 +1044,14 @@ function lastWeight(exName) {
 }
 
 function renderGym() {
-  const week = WEEKS[state.currentWeek];
-  // Determine active day — could be extra session
-  const isExtra = !!state.extraSessionActive;
-  const day = isExtra ? week.extra : week.days[state.activeDay];
+  const day = PROGRAM.days[state.activeDay];
 
-  // Week badge
+  // Badge — static for 5-day program
   const wbv = document.getElementById("weekBadgeVal");
-  wbv.textContent = state.currentWeek;
-  wbv.style.color = state.currentWeek==="A" ? "#ff2d78" : "#00f5d4";
-  document.getElementById("weekBadgePat").textContent = week.pattern;
-  document.getElementById("weekBadge").style.borderColor =
-    state.currentWeek==="A" ? "#ff2d7888" : "#00f5d488";
+  wbv.textContent = "PPL";
+  wbv.style.color = "#ff2d78";
+  document.getElementById("weekBadgePat").textContent = "5-day split";
+  document.getElementById("weekBadge").style.borderColor = "#ff2d7888";
 
   // History strip
   const hs = document.getElementById("gymHistStrip");
@@ -1109,55 +1063,29 @@ function renderGym() {
       }).join("")
     : "";
 
-  // Day tabs — always show 3 regular days
+  // Day tabs — 5 days
   const tabsEl = document.getElementById("dayTabs");
   tabsEl.innerHTML = "";
-  week.days.forEach((d,i)=>{
+  PROGRAM.days.forEach((d,i)=>{
     const status = state.completedDays[d.id];
-    const isActiveTab = !isExtra && i===state.activeDay;
     const tab = document.createElement("div");
-    tab.className = `day-tab ${isActiveTab?"active":""}`;
-    if (isActiveTab) tab.style.borderColor = d.color;
+    tab.className = `day-tab ${i===state.activeDay?"active":""}`;
+    if (i===state.activeDay) tab.style.borderColor = d.color;
     let statusText, focusColor;
-    if (status===true)           {statusText="✓ done";     focusColor="#441133";}
+    if (status===true)           {statusText="✓";         focusColor="#441133";}
     else if (status==="partial") {statusText="⚡ partial"; focusColor="#c8a030";}
-    else if (status==="skipped") {statusText="⚠ skipped"; focusColor="#884444";}
-    else                         {statusText=d.muscles;    focusColor=isActiveTab?d.color:"#fff";}
+    else if (status==="skipped") {statusText="⚠ skip";    focusColor="#884444";}
+    else                         {statusText=d.type;      focusColor=i===state.activeDay?d.color:"#fff";}
     tab.innerHTML=`
       <div class="day-tab-lbl">${d.label}</div>
-      <div class="day-tab-focus" style="color:${focusColor}">${d.focus}</div>
+      <div class="day-tab-focus" style="color:${focusColor};font-size:12px;">${d.focus.split(' ')[0]}</div>
       <div class="day-tab-muscles">${statusText}</div>`;
-    tab.onclick=()=>{
-      if (isExtra) {
-        if (!confirm("Leave extra session? Progress will be lost.")) return;
-        state.extraSessionActive = false;
-        // Clear extra session checked/weights
-        const ex = week.extra;
-        realExercises(ex).forEach(({idx})=>{
-          delete state.checked[cKey(ex.id,idx)];
-          delete state.weights[wKey(ex.id,idx)];
-        });
-      }
-      state.activeDay=i; saveState(); renderGym();
-    };
+    tab.onclick=()=>{state.activeDay=i;saveState();renderGym();};
     tabsEl.appendChild(tab);
   });
-  // If extra session is active, add an extra tab indicator
-  if (isExtra) {
-    const exTab = document.createElement("div");
-    exTab.className = "day-tab active";
-    exTab.style.borderColor = day.color;
-    exTab.style.gridColumn = "1 / -1";
-    exTab.style.background = "var(--surface2)";
-    exTab.innerHTML = `
-      <div class="day-tab-lbl">Extra Session</div>
-      <div class="day-tab-focus" style="color:${day.color}">${day.focus}</div>
-      <div class="day-tab-muscles">${day.muscles}</div>`;
-    tabsEl.appendChild(exTab);
-  }
 
   // Section header
-  document.getElementById("secFocus").textContent = isExtra ? `Extra · ${day.focus}` : day.focus;
+  document.getElementById("secFocus").textContent = day.focus;
   document.getElementById("secFocus").style.color = day.color;
   document.getElementById("durBadge").textContent = day.duration;
 
@@ -1207,26 +1135,18 @@ function renderGym() {
     const curNote=(state.exerciseNotes||{})[nk]||"";
     const eff=getEffective(day.id,idx,ex);
     const isOverridden=!!(state.exOverrides||{})[ok];
-
-    // PR badge logic
     const curWFloat = parseFloat(curW);
     const isNewPR = !isNaN(curWFloat) && curWFloat > 0 && (allTimePR === null || curWFloat > allTimePR);
     const prHtml = isNewPR ? `<span class="pr-badge">★ PR</span>` : "";
-
-    // PR display — show only best, not last time
-    let prInfo = "";
-    if (allTimePR !== null) {
-      prInfo = `<div class="wt-last">Best<span>${allTimePR} kg</span></div>`;
-    } else {
-      prInfo = `<div class="wt-last"></div>`;
-    }
+    let prInfo = allTimePR !== null
+      ? `<div class="wt-last">Best<span>${allTimePR} kg</span></div>`
+      : `<div class="wt-last"></div>`;
 
     const row=document.createElement("div");
     row.className=`ex-row ${isDone?"done":""}`;
     row.setAttribute('data-ex-idx', idx);
 
     if (ex.bodyweight) {
-      // Bodyweight exercise — checkbox only, no weight input
       row.innerHTML=`
         <div class="accent-bar" style="background:${accent}"></div>
         <div class="ex-top">
@@ -1242,11 +1162,9 @@ function renderGym() {
             <div class="stat-rest">rest ${ex.rest}</div>
           </div>
         </div>
-        <div class="bw-row">
-          <div class="bw-lbl">Bodyweight</div>
-        </div>
+        <div class="bw-row"><div class="bw-lbl">Bodyweight</div></div>
         <div class="ex-note-row">
-          <textarea class="ex-note-input" placeholder="Notes for this exercise..." maxlength="280" rows="2" ${dayDone?"disabled":""}>${curNote}</textarea>
+          <textarea class="ex-note-input" placeholder="Notes..." maxlength="280" rows="2" ${dayDone?"disabled":""}>${curNote}</textarea>
         </div>`;
     } else {
       row.innerHTML=`
@@ -1347,8 +1265,8 @@ function renderGym() {
   // Init sticky exercise indicator
   initStickyEx(day, real, day.color);
 
-  // Check if all 3 regular days are done
-  const allRegularDone = week.days.every(d=>state.completedDays[d.id]);
+  // Check if all 5 days done
+  const allDone = PROGRAM.days.every(d=>state.completedDays[d.id]);
 
   // Buttons
   const btn=document.getElementById("completeBtn");
@@ -1356,6 +1274,7 @@ function renderGym() {
   const finishWrap=document.getElementById("finishWeekWrap");
   const extraWrap=document.getElementById("extraSessionWrap");
   const finishBtn=document.getElementById("finishWeekBtn");
+  if (!btn || !skipBtn) return;
   const status=state.completedDays[day.id];
 
   if (status) {
@@ -1370,18 +1289,18 @@ function renderGym() {
     btn.style.background=btn.style.color=btn.style.boxShadow=""; skipBtn.disabled=false;
   }
 
-  // Show finish week / extra session buttons when all 3 regular days are done
-  if (allRegularDone && !isExtra) {
-    finishWrap.style.display="block";
-    extraWrap.style.display = state.completedDays[week.extra.id] ? "none" : "block";
-    const nextWeek = state.currentWeek==="A"?"B":"A";
-    finishBtn.textContent = `✓ Finish Week → Start Week ${nextWeek}`;
-    finishBtn.style.background = nextWeek==="A" ? "#ff2d78" : "#00f5d4";
-    finishBtn.style.color = "#fff";
-    finishBtn.style.boxShadow = nextWeek==="A" ? "0 0 20px #ff2d7855" : "0 0 20px #00f5d444";
+  // Show finish week button when all 5 days done
+  if (allDone) {
+    if (finishWrap) finishWrap.style.display="block";
+    if (extraWrap) extraWrap.style.display="none";
+    if (finishBtn) {
+      finishBtn.style.background="#ff2d78";
+      finishBtn.style.color="#fff";
+      finishBtn.style.boxShadow="0 0 20px #ff2d7855";
+    }
   } else {
-    finishWrap.style.display="none";
-    extraWrap.style.display="none";
+    if (finishWrap) finishWrap.style.display="none";
+    if (extraWrap) extraWrap.style.display="none";
   }
 
   // Tips
@@ -1411,21 +1330,11 @@ function stepSR(ok, field, delta, e) {
   e.stopPropagation();
   if (!state.exOverrides) state.exOverrides = {};
   let base = null;
-  for (const wk of Object.keys(WEEKS)) {
-    const week = WEEKS[wk];
-    // Search regular days
-    for (const d of week.days) {
-      d.exercises.forEach((ex, idx) => {
-        if (!ex.divider && oKey(d.id, idx) === ok) base = { ex, dayId: d.id, idx };
-      });
-    }
-    // Search extra day
-    if (week.extra) {
-      week.extra.exercises.forEach((ex, idx) => {
-        if (!ex.divider && oKey(week.extra.id, idx) === ok) base = { ex, dayId: week.extra.id, idx };
-      });
-    }
-  }
+  PROGRAM.days.forEach(d => {
+    d.exercises.forEach((ex, idx) => {
+      if (!ex.divider && oKey(d.id, idx) === ok) base = { ex, dayId: d.id, idx };
+    });
+  });
   if (!base) return;
   const eff = getEffective(base.dayId, base.idx, base.ex);
   const cur = state.exOverrides[ok] || { sets: eff.sets, repsLow: eff.repsLow, repsHigh: eff.repsHigh };
@@ -1458,35 +1367,28 @@ function resetSR(ok, e) {
 }
 
 function completeDay() {
-  const week=WEEKS[state.currentWeek];
-  const isExtra = !!state.extraSessionActive;
-  const day = isExtra ? week.extra : week.days[state.activeDay];
-  const real=realExercises(day);
-  const doneCount=real.filter(({idx})=>!!state.checked[cKey(day.id,idx)]).length;
-  if (doneCount<real.length || state.completedDays[day.id]) return;
+  const day = PROGRAM.days[state.activeDay];
+  const real = realExercises(day);
+  const doneCount = real.filter(({idx})=>!!state.checked[cKey(day.id,idx)]).length;
+  if (doneCount < real.length || state.completedDays[day.id]) return;
   saveGymSession(day, real, true);
 }
 
 function skipDay() {
-  const week=WEEKS[state.currentWeek];
-  const isExtra = !!state.extraSessionActive;
-  const day = isExtra ? week.extra : week.days[state.activeDay];
+  const day = PROGRAM.days[state.activeDay];
   if (state.completedDays[day.id]) return;
-  const real=realExercises(day);
-  const doneCount=real.filter(({idx})=>!!state.checked[cKey(day.id,idx)]).length;
-  const isSkip=doneCount===0;
-  const msg=isSkip
-    ?"Mark this day as skipped?"
-    :`You completed ${doneCount} of ${real.length} exercises. Save as partial and move on?`;
+  const real = realExercises(day);
+  const doneCount = real.filter(({idx})=>!!state.checked[cKey(day.id,idx)]).length;
+  const isSkip = doneCount === 0;
+  const msg = isSkip
+    ? "Mark this day as skipped?"
+    : `You completed ${doneCount} of ${real.length} exercises. Save as partial and move on?`;
   if (!confirm(msg)) return;
-  saveGymSession(day, real, isSkip?"skipped":"partial");
+  saveGymSession(day, real, isSkip ? "skipped" : "partial");
 }
 
 function saveGymSession(day, real, status) {
-  const week=WEEKS[state.currentWeek];
-  const isExtra = !!state.extraSessionActive;
-  const kcal=estimateGymCalories(day);
-  // Collect notes per exercise
+  const kcal = estimateGymCalories(day);
   const notes = {};
   real.forEach(({idx}) => {
     const nk = `${day.id}-${idx}-note`;
@@ -1496,8 +1398,8 @@ function saveGymSession(day, real, status) {
   state.sessionHistory.push({
     kind:"gym",
     date:new Date().toISOString(),
-    weekLabel:`Week ${state.currentWeek}${isExtra?" (Extra)":""}`,
-    dayId:day.id, dayLabel:isExtra?"Extra":day.label,
+    weekLabel:"5-Day Split",
+    dayId:day.id, dayLabel:day.label,
     focus:day.focus, type:day.type,
     status:status,
     caloriesBurned: status==="skipped" ? null : kcal,
@@ -1510,46 +1412,32 @@ function saveGymSession(day, real, status) {
       note: notes[idx] || null,
     }))
   });
-  state.completedDays[day.id]=status;
-  if (isExtra) state.extraSessionActive = false;
+  state.completedDays[day.id] = status;
   saveState();
   hideStickyEx();
+  // Auto advance to next incomplete day
+  const nextIdx = PROGRAM.days.findIndex((d,i) => i > state.activeDay && !state.completedDays[d.id]);
+  if (nextIdx !== -1) { state.activeDay = nextIdx; saveState(); }
   renderGym();
 }
 
-function startExtraSession() {
-  const week=WEEKS[state.currentWeek];
-  const allRegularDone=week.days.every(d=>state.completedDays[d.id]);
-  if (!allRegularDone) return;
-  if (state.completedDays[week.extra.id]) {
-    alert("Extra session already completed this week.");
-    return;
-  }
-  state.extraSessionActive = true;
-  saveState();
-  renderGym();
+function showWeekOverlay() {
+  document.getElementById("ovSub").textContent = `All 5 days complete. Rest up!`;
+  document.getElementById("ovNext").innerHTML = `Next up<span>New Week · Reset & go again</span>`;
+  document.getElementById("ovBtn").style.background = "#ff2d78";
+  document.getElementById("ovBtn").style.color = "#fff";
+  document.getElementById("ovBtn").style.boxShadow = "0 0 20px #ff2d7855";
+  document.getElementById("weekOverlay").classList.add("show");
 }
 
 function finishWeek() {
   showWeekOverlay();
 }
 
-function showWeekOverlay() {
-  const next=state.currentWeek==="A"?"B":"A";
-  document.getElementById("ovSub").textContent=`Week ${state.currentWeek} complete. Rest up!`;
-  document.getElementById("ovNext").innerHTML=`Next up<span>Week ${next} · ${WEEKS[next].pattern}</span>`;
-  document.getElementById("ovBtn").style.background=next==="A"?"#ff2d78":"#00f5d4";
-  document.getElementById("ovBtn").style.color="#fff";
-  document.getElementById("ovBtn").style.boxShadow=next==="A"?"0 0 20px #ff2d7855":"0 0 20px #00f5d444";
-  document.getElementById("weekOverlay").classList.add("show");
-}
-
 function advanceWeek() {
-  const next=state.currentWeek==="A"?"B":"A";
-  state.currentWeek=next; state.activeDay=0;
-  state.checked={}; state.weights={}; state.completedDays={};
-  state.exOverrides={}; state.extraSessionActive=false;
-  state.exerciseNotes={};
+  state.activeDay = 0;
+  state.checked = {}; state.weights = {}; state.completedDays = {};
+  state.exOverrides = {}; state.exerciseNotes = {};
   saveState();
   document.getElementById("weekOverlay").classList.remove("show");
   renderGym();
@@ -1564,8 +1452,7 @@ function toggleTips() {
 
 function resetWeek() {
   if (!confirm("Reset current week? Clears checkboxes, weights and overrides, keeps history.")) return;
-  const week=WEEKS[state.currentWeek];
-  week.days.forEach(d=>{
+  PROGRAM.days.forEach(d=>{
     delete state.completedDays[d.id];
     d.exercises.forEach((_,idx)=>{
       delete state.checked[cKey(d.id,idx)];
@@ -1763,7 +1650,6 @@ function renderHistGym(s, realIdx, isSelected) {
       <div>
         <div class="hist-ex-name">${skipped?"✗ ":""}${ex.name}</div>
         <div class="hist-ex-muscle" style="color:${ac}">${ex.muscle}</div>
-        ${ex.note?`<div class="hist-ex-note">📝 ${ex.note}</div>`:""}
       </div>
       <div>
         <div class="hist-ex-wt">${ex.weight?ex.weight+" kg":"—"}</div>
@@ -1917,25 +1803,24 @@ function saveRunEdits(realIdx) {
   }, 50);
 }
 
+const DATA_VERSION = 2;
+
 function exportHistory() {
   const exportData = {
     exportDate: new Date().toISOString(),
     version: DATA_VERSION,
-    // Full app state
-    currentWeek: state.currentWeek,
     activeDay: state.activeDay,
     checked: state.checked,
     weights: state.weights,
     completedDays: state.completedDays,
     exOverrides: state.exOverrides || {},
-    extraSessionActive: state.extraSessionActive || false,
     exerciseNotes: state.exerciseNotes || {},
     profile: state.profile,
     sessions: state.sessionHistory,
   };
   const blob = new Blob([JSON.stringify(exportData, null, 2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
   a.href=url; a.download=`trainapp-${new Date().toISOString().slice(0,10)}.json`;
   a.click(); URL.revokeObjectURL(url);
 }
@@ -1945,7 +1830,7 @@ function migrateSession(s) {
     return {
       kind:"gym",
       date: s.date || new Date().toISOString(),
-      weekLabel: s.weekLabel || "",
+      weekLabel: s.weekLabel || "5-Day Split",
       dayId: s.dayId || "",
       dayLabel: s.dayLabel || "",
       focus: s.focus || "",
@@ -1984,22 +1869,20 @@ function importHistory(event) {
     try {
       const data = JSON.parse(e.target.result);
       if (data.version && data.version > DATA_VERSION) {
-        alert(`⚠ This export was made with a newer version of the app (v${data.version}). Some data may not import correctly.`);
+        alert(`⚠ This export was made with a newer version (v${data.version}). Some data may not import correctly.`);
       }
       if (data.sessions && Array.isArray(data.sessions)) {
-        // Full state export (new format)
-        if (data.currentWeek !== undefined) {
+        if (data.activeDay !== undefined) {
+          // Full state export
           if (!confirm(`Import full app state from ${data.exportDate ? new Date(data.exportDate).toLocaleDateString() : "unknown date"}? This will replace all current data.`)) return;
           const migrated = data.sessions.map(migrateSession);
           state = {
             ...defaultState(),
-            currentWeek: data.currentWeek || "A",
             activeDay: data.activeDay || 0,
             checked: data.checked || {},
             weights: data.weights || {},
             completedDays: data.completedDays || {},
             exOverrides: data.exOverrides || {},
-            extraSessionActive: data.extraSessionActive || false,
             exerciseNotes: data.exerciseNotes || {},
             profile: data.profile || { age:null, weight:null, height:null },
             sessionHistory: migrated,
@@ -2009,7 +1892,7 @@ function importHistory(event) {
           renderGym();
           alert(`✓ Full state imported. ${migrated.length} sessions restored.`);
         } else {
-          // Legacy sessions-only export — merge
+          // Legacy sessions-only export
           if (!confirm(`Import ${data.sessions.length} sessions? This will merge with your existing data.`)) return;
           const migrated = data.sessions.map(migrateSession);
           const existingKeys = new Set(state.sessionHistory.map(s => s.date + s.kind));
